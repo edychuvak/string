@@ -8,15 +8,15 @@
 int springHeight = 32;  // Height
 int left;               // Left position
 int right;              // Right position
-int max = 200;          // Maximum Y value
+int max = 250;          // Maximum Y value
 int min = 100;          // Minimum Y value
 boolean over = false;   // If mouse over
 boolean move = false;   // If mouse down and over
 
 // Spring simulation constants
-float M = 0.8;   // Mass
-float K = 0.2;   // Spring constant
-float D = 0.92;  // Damping
+float M = 15.0;   // Mass
+float K = 1.0;   // Spring constant
+float D = 0.4;  // Damping
 float R = 150;   // Rest position
 
 // Spring simulation variables
@@ -59,16 +59,12 @@ void drawSpring() {
 
 void updateSpring() {
   // Update the spring position
-  if(!move) {
-    f = -K * (ps - R);    // f=-ky
-    as = f / M;           // Set the acceleration, f=ma == a=f/m
-    vs = D * (vs + as);   // Set the velocity
-    ps = ps + vs;         // Updated position
-  }
-  if(abs(vs) < 0.1) {
-    vs = 0.0;
-  }
-
+if(!move) {
+f = -K * (ps - R) - D*vs; // f=-k.y -D.v
+as = f / M; // Set the acceleration, f=ma == a=f/m
+vs = vs +as; // Set the velocity
+ps = ps + vs; // Updated position
+}
   // Test if mouse is over the top bar
   if(mouseX > left && mouseX < right && mouseY > ps && mouseY < ps + springHeight) {
     over = true;
@@ -92,3 +88,4 @@ void mousePressed() {
 void mouseReleased() {
   move = false;
 }
+

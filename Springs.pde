@@ -13,9 +13,9 @@ Spring[] springs = new Spring[num];
 void setup() {
   size(640, 360);
   noStroke(); 
-  springs[0] = new Spring(240, 260, 40, 0.98, 8.0, 0.1, springs, 0); 
-  springs[1] = new Spring(320, 210, 120, 0.95, 9.0, 0.1, springs, 1); 
-  springs[2] = new Spring(180, 170, 200, 0.90, 9.9, 0.1, springs, 2);
+  springs[0] = new Spring(240, 260, 40, 0.1, 8.0, 0.1, springs, 0); 
+  springs[1] = new Spring(320, 210, 120, 0.1, 9.0, 0.1, springs, 1); 
+  springs[2] = new Spring(180, 170, 200, 0.1, 9.9, 0.1, springs, 2);
 }
 
 void draw() {
@@ -85,14 +85,14 @@ class Spring {
       rest_posx = mouseX;
     } 
 
-    force = -k * (tempypos - rest_posy);  // f=-ky 
+    force = -k * (tempypos - rest_posy) - damp * vely;  // f=-ky 
     accel = force / mass;                 // Set the acceleration, f=ma == a=f/m 
-    vely = damp * (vely + accel);         // Set the velocity 
+    vely = vely + accel;         // Set the velocity 
     tempypos = tempypos + vely;           // Updated position 
 
-    force = -k * (tempxpos - rest_posx);  // f=-ky 
+    force = -k * (tempxpos - rest_posx) - damp * velx;  // f=-ky 
     accel = force / mass;                 // Set the acceleration, f=ma == a=f/m 
-    velx = damp * (velx + accel);         // Set the velocity 
+    velx = velx + accel;         // Set the velocity 
     tempxpos = tempxpos + velx;           // Updated position 
 
 
